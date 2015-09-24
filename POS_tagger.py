@@ -27,7 +27,7 @@ class Word(str):
 		self.tag = part
 
 class Sentence(object):
-
+#Links together words into a readable, sentence object for tagging.
 	def __init__(self, text):
 		self.words = [Word(elem) for elem in self.remove_punc(text)]
 	def __repr__(self):
