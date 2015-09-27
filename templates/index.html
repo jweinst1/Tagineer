@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+<head>
+	<title>Tagineer</title>
+	<meta content="A Part of Speech Tagging App written by Josh Weinstein and in Python" name="description" />
+</head>
+<body>
+<h1 style="text-align: center;"><img alt="" src="http://i62.tinypic.com/2957d02.jpg" style="width: 210px; height: 210px;" /></h1>
+
+<h1 style="text-align: center;"><span style="font-family:arial,helvetica,sans-serif;"><span style="color:#FF8C00;">Tagineer</span></span></h1>
+
+<h3 style="text-align: center;"><span style="font-family:arial,helvetica,sans-serif;"><span style="color:#FF8C00;">A Quick, Speedy part of speech tagger.</span></span></h3>
+
+<p style="text-align: center;"><span style="font-family:arial,helvetica,sans-serif;"><span style="color:#FF8C00;">Put your text in this box.</span></span></p>
+
+<form action="/" enctype="text/plain" method="get">
+<p style="text-align: center;"><input name="mail" size="40" type="text" /></p>
+
+<p style="text-align: center;"><input type="submit" value="Tag Words" /></p>
+</form>
+
+{% if result %}
+<p style="text-align: center;"><textarea cols="50" name="result" rows="5">{{ result }}</textarea></p>
+{% endif %}
+
+<p style="text-align: center;"><span style="font-family:arial,helvetica,sans-serif;"><span style="color:#FFA500;">Tagineer is a natural-languaging processing application written by Josh Weinstein. It can tag the parts of speech in English words.</span></span></p>
+
+<p style="text-align: center;"><span style="font-family:arial,helvetica,sans-serif;"><span style="color:#FFA500;">The available tags are:</span></span></p>
+
+<p style="text-align: center;"><span style="font-family:arial,helvetica,sans-serif;"><span style="color:#FFA500;">Noun-S(singular), Noun-P(plural)</span></span></p>
+
+<p style="text-align: center;"><span style="font-family:arial,helvetica,sans-serif;"><span style="color:#FFA500;">Verbs,&nbsp;</span></span></p>
+
+<p style="text-align: center;"><span style="font-family:arial,helvetica,sans-serif;"><span style="color:#FFA500;">Adjectives,</span></span></p>
+
+<p style="text-align: center;"><span style="font-family:arial,helvetica,sans-serif;"><span style="color:#FFA500;">Adverbs,</span></span></p>
+
+<p style="text-align: center;"><span style="font-family:arial,helvetica,sans-serif;"><span style="color:#FFA500;">Propositions,</span></span></p>
+
+<p style="text-align: center;"><span style="font-family:arial,helvetica,sans-serif;"><span style="color:#FFA500;">Coordinating Conjunctions,</span></span></p>
+
+<p style="text-align: center;"><span style="font-family:arial,helvetica,sans-serif;"><span style="color:#FFA500;">Subordinating Conjunctions</span></span></p>
+
+<p style="text-align: center;">&nbsp;</p>
+
+<p style="text-align: center;">&nbsp;</p>
+
+<p style="text-align: center;">&nbsp;</p>
+
+<p style="text-align: center;"><span style="font-family:verdana,geneva,sans-serif;"><span style="color:#FFA500;">If you like the app, like our facebook <a href="https://www.facebook.com/Tagineer-1498482493808971/timeline/">page</a> or follow us on <a href="https://twitter.com/tagineers">twitter!</a></span></span></p>
+
+<p style="text-align: center;"><span style="font-family:verdana,geneva,sans-serif;"><span style="color:#FFA500;">Visit us on Github!</span></span></p>
+<form method="link" action="https://github.com/jweinst1/Tagineer">
+    <p style="text-align: center;"><input alt="" src="https://runtimeverification.com/img/github.png" style="width: 170px; height: 72px;" type="image" /></p>
+</form>
+</body>
+</html>
