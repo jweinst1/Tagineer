@@ -104,22 +104,30 @@ class Word_Ref (object):
 
 	def __init__(self, selection):
 		if selection == 'Verbs':
-			wordfile = open('Verbs.txt', 'r')
+			_dir = os.path.abspath(os.path.dirname('Informineer'))
+			verb_file = os.path.join(_dir, 'Verbs.txt')
+			wordfile = open(verb_file, 'r')
 			wordstring = wordfile.read()
 			self.reference = wordstring.split()
 			wordfile.close()
 		elif selection == 'Nouns':
-			wordfile = open('Nouns.txt', 'r')
+			_dir = os.path.abspath(os.path.dirname('Informineer'))
+			noun_file = os.path.join(_dir, 'Nouns.txt')
+			wordfile = open(noun_file, 'r')
 			wordstring = wordfile.read()
 			self.reference = wordstring.split()
 			wordfile.close()
 		elif selection == 'Adjectives':
-			wordfile = open('Adjectives.txt', 'r')
+			_dir = os.path.abspath(os.path.dirname('Informineer'))
+			adj_file = os.path.join(_dir, 'Adjectives.txt')
+			wordfile = open(adj_file, 'r')
 			wordstring = wordfile.read()
 			self.reference = wordstring.split()
 			wordfile.close()
 		elif selection == 'Adverbs':
-			wordfile = open('Adverbs.txt', 'r')
+			_dir = os.path.abspath(os.path.dirname('Informineer'))
+			adverb_file = os.path.join(_dir, 'Adverbs.txt')
+			wordfile = open(adverb_file, 'r')
 			wordstring = wordfile.read()
 			self.reference = wordstring.split()
 			wordfile.close()
