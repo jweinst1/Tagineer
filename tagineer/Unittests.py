@@ -1,5 +1,5 @@
 __author__ = 'Josh'
-from POS_tagger import *
+from tagineer.POS_tagger import *
 
 #Test for properly functioning word structure
 

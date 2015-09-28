@@ -23,11 +23,13 @@ class Word(str):
 		self.tag = None
 	def __getitem__(self, i):
 		return self.word[i]
+	def __len__(self):
+		return len(self.word)
 	def set_tag(self, part):
 		self.tag = part
 
 class Sentence(object):
-#Links together words into a readable, sentence object for tagging.
+
 	def __init__(self, text):
 		self.words = [Word(elem) for elem in self.remove_punc(text)]
 	def __repr__(self):
@@ -42,7 +44,12 @@ class Sentence(object):
 	def __len__(self):
 		return len(self.words)
 	def __getitem__(self, i):
-		return self.words[i]
+		if i < 0:
+			return False
+		elif i > len(self.words)-1:
+			return False
+		else:
+			return self.words[i]
 	def index(self, elem):
 		return self.words.index(elem)
 	def get_previous(self, i):
@@ -50,9 +57,16 @@ class Sentence(object):
 	def get_next(self, i):
 		return self.words[i+1]
 	def check_tag(self, i):
-		return self.words[i].tag
+		if i < 0:
+			return False
+		elif i > len(self.words)-1:
+			return False
+		else:
+			return self.words[i].tag
 	def set_tag(self, i, tag):
 		self.words[i].set_tag(tag)
+	def append_tag(self, i, app):
+		self.words[i].set_tag(self.words[i].tag+app)
 	def show_tags(self):
 		return [(elem, elem.tag) for elem in self.words]
 	def is_last_word(self, i):
@@ -60,6 +74,16 @@ class Sentence(object):
 			return True
 		else:
 			return False
+	def has_comma(self, i):
+		if i < 0:
+			return False
+		elif i > len(self.words)-1:
+			return False
+		else:
+			if self.words[i][len(self.words[i])-1] == ',':
+				return True
+			else:
+				return False
 	def remove_punc(self, text):
 		if text[-1] == '?':
 			self.question = True
@@ -80,28 +104,28 @@ class Word_Ref (object):
 
 	def __init__(self, selection):
 		if selection == 'Verbs':
-			_dir = os.path.abspath(os.path.dirname('Tagineer'))
+			_dir = os.path.abspath(os.path.dirname('tagineer'))
 			verb_file = os.path.join(_dir, 'Verbs.txt')
 			wordfile = open(verb_file, 'r')
 			wordstring = wordfile.read()
 			self.reference = wordstring.split()
 			wordfile.close()
 		elif selection == 'Nouns':
-			_dir = os.path.abspath(os.path.dirname('Tagineer'))
+			_dir = os.path.abspath(os.path.dirname('tagineer'))
 			noun_file = os.path.join(_dir, 'Nouns.txt')
 			wordfile = open(noun_file, 'r')
 			wordstring = wordfile.read()
 			self.reference = wordstring.split()
 			wordfile.close()
 		elif selection == 'Adjectives':
-			_dir = os.path.abspath(os.path.dirname('Tagineer'))
+			_dir = os.path.abspath(os.path.dirname('tagineer'))
 			adj_file = os.path.join(_dir, 'Adjectives.txt')
 			wordfile = open(adj_file, 'r')
 			wordstring = wordfile.read()
 			self.reference = wordstring.split()
 			wordfile.close()
 		elif selection == 'Adverbs':
-			_dir = os.path.abspath(os.path.dirname('Tagineer'))
+			_dir = os.path.abspath(os.path.dirname('tagineer'))
 			adverb_file = os.path.join(_dir, 'Adverbs.txt')
 			wordfile = open(adverb_file, 'r')
 			wordstring = wordfile.read()
@@ -217,6 +241,7 @@ def tag_avna(statement):
 
 def post_processing(statement):
 	#corrects errors in tagging based on rule-based deduction.
+	be_verbs = ['is', 'was', 'are', 'were']
 	i = 0
 	while i < len(statement):
 		if statement.check_tag(i) == 'noun' and statement.check_tag(i-1) == 'pronoun':
@@ -225,12 +250,21 @@ def post_processing(statement):
 		elif statement.check_tag(i) == None and statement.check_tag(i+1) == 'verb':
 			statement.set_tag(i, 'noun')
 			i += 1
+		elif statement.check_tag(i) == None and statement.check_tag(i-1) == 'preposition':
+			statement.set_tag(i, 'noun')
+			i += 1
 		elif statement.check_tag(i) == None and statement.check_tag(i+1) == 'subord_conj':
 			statement.set_tag(i, 'noun')
+			i += 1
+		elif statement.check_tag(i) == 'noun' and statement.check_tag(i-1) == 'noun' and statement.has_comma(i-1) == False:
+			statement.set_tag(i, 'verb')
 			i += 1
 		elif statement.check_tag(i) == 'noun' and statement.check_tag(i-1) == 'adjective' and statement.check_tag(i+1) == 'noun' and statement.is_last_word(i):
 			statement.set_tag(i, 'adjective')
 		elif statement.check_tag(i) == 'noun' and statement.check_tag(i-1) == 'article' and statement.check_tag(i+1) == 'noun':
+			statement.set_tag(i, 'adjective')
+			i += 1
+		elif statement.check_tag(i) == 'noun' and statement[i-1] in be_verbs and statement.is_last_word(i) and statement.check_tag(i-2) == 'noun':
 			statement.set_tag(i, 'adjective')
 			i += 1
 		elif statement.check_tag(i) == None and statement.check_tag(i-1) == 'article' and statement.check_tag(i+1) == 'noun':
@@ -243,15 +277,46 @@ def post_processing(statement):
 			i += 1
 	return statement
 
+def tag_noun_plurals(statement):
+	i = 0
+	while i < len(statement):
+		if statement.check_tag(i) == 'noun':
+			if statement[i][-1] == 's' and statement[i][-2] in consonants:
+				statement.append_tag(i, '-P')
+				i += 1
+			elif statement[i][-1] == 's' and statement[i][-2] == 'e' and statement[i][-3] in consonants:
+				statement.append_tag(i, '-P')
+				i += 1
+			else:
+				statement.append_tag(i, '-S')
+				i += 1
+		else:
+			i += 1
+	return statement
+
 def tag_sentence(statement):
-	statement = tag_pronouns(statement)
-	statement = tag_preposition(statement)
-	statement = tag_be_verbs(statement)
-	statement = tag_coord_conj(statement)
-	statement = tag_subord_conj(statement)
-	tagged = tag_avna(statement)
-	tagged = post_processing(tagged)
-	return tagged
+	elem = statement
+	tag = tag_avna(elem)
+	tag = tag_pronouns(tag)
+	tag = tag_preposition(tag)
+	tag = tag_coord_conj(tag)
+	tag = tag_subord_conj(tag)
+	tag = tag_be_verbs(tag)
+	tag = post_processing(tag)
+	tag = tag_noun_plurals(tag)
+	return tag
+
+def tag_text(text):
+	elem = Sentence(text)
+	tag = tag_avna(elem)
+	tag = tag_pronouns(tag)
+	tag = tag_preposition(tag)
+	tag = tag_coord_conj(tag)
+	tag = tag_subord_conj(tag)
+	tag = tag_be_verbs(tag)
+	tag = post_processing(tag)
+	tag = tag_noun_plurals(tag)
+	return tag
 
 def package_sentence(statement):
 	#packages a tagged sentence into a displayable string
