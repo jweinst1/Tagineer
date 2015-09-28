@@ -2,7 +2,7 @@ from distutils.core import setup
 setup(
   name = 'Tagineer',
   packages = ['Tagineer'], # this must be the same as the name above
-  version = '0.1.2',
+  version = '0.1.3',
   description = 'A Part of Speech Tagging App Written in Python',
   author = 'Joshua Weinstein',
   author_email = 'jweinst1@berkeley.edu',
