@@ -1,6 +1,8 @@
 # Tagineer
 Link to Live [App](https://tagineer.herokuapp.com)
 
+On [PyPi](https://pypi.python.org/pypi/Tagineer)
+
 A Part of Speech Tagging application written in Python.
 
 Tagineer is available her as a general package, although a starter flask app py file and template are provided, similar to the ones used on the site.
