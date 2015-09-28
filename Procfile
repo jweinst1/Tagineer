@@ -1,0 +1,1 @@
+web: gunicorn Informineer:app --log-file=-
