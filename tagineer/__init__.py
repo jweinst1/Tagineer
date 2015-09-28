@@ -1,6 +1,6 @@
 __author__ = 'Josh'
 import os
-import urllib3
+import urllib
 
 alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
 vowels = ['a', 'e', 'i', 'o', 'u']
@@ -104,33 +104,21 @@ class Word_Ref (object):
 
 	def __init__(self, selection):
 		if selection == 'Verbs':
-			_dir = os.path.abspath(os.path.dirname('Informineer'))
-			verb_file = os.path.join(_dir, 'Verbs.txt')
-			wordfile = open(verb_file, 'r')
-			wordstring = wordfile.read()
+			txt = urllib.request.urlopen('https://raw.githubusercontent.com/jweinst1/Tagineer/master/tagineer/Verbs.txt').read()
+			wordstring = txt.decode("utf-8")
 			self.reference = wordstring.split()
-			wordfile.close()
 		elif selection == 'Nouns':
-			_dir = os.path.abspath(os.path.dirname('Informineer'))
-			noun_file = os.path.join(_dir, 'Nouns.txt')
-			wordfile = open(noun_file, 'r')
-			wordstring = wordfile.read()
+			txt = urllib.request.urlopen('https://raw.githubusercontent.com/jweinst1/Tagineer/master/tagineer/Nouns.txt').read()
+			wordstring = txt.decode("utf-8")
 			self.reference = wordstring.split()
-			wordfile.close()
 		elif selection == 'Adjectives':
-			_dir = os.path.abspath(os.path.dirname('Informineer'))
-			adj_file = os.path.join(_dir, 'Adjectives.txt')
-			wordfile = open(adj_file, 'r')
-			wordstring = wordfile.read()
+			txt = urllib.request.urlopen('https://raw.githubusercontent.com/jweinst1/Tagineer/master/tagineer/Adjectives.txt').read()
+			wordstring = txt.decode("utf-8")
 			self.reference = wordstring.split()
-			wordfile.close()
 		elif selection == 'Adverbs':
-			_dir = os.path.abspath(os.path.dirname('Informineer'))
-			adverb_file = os.path.join(_dir, 'Adverbs.txt')
-			wordfile = open(adverb_file, 'r')
-			wordstring = wordfile.read()
+			txt = urllib.request.urlopen('https://raw.githubusercontent.com/jweinst1/Tagineer/master/tagineer/Adverbs.txt').read()
+			wordstring = txt.decode("utf-8")
 			self.reference = wordstring.split()
-			wordfile.close()
 		elif selection == 'Pronouns':
 			self.reference = ['i', 'me', 'my', 'mine', 'myself', 'you', 'your', 'yours', 'yourself', 'he', 'she', 'it', 'him', 'her'
 							  'his', 'hers', 'its', 'himself', 'herself', 'itself', 'we', 'us', 'our', 'ours', 'ourselves',
