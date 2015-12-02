@@ -1,5 +1,18 @@
 __author__ = 'Josh'
 from tagineer.POS_tagger import *
+import unittest
+
+
+
+class word_tests(unittest.TestCase):
+
+    template1 = Sentence("The fools do not understand Python coding.")
+    template2 = Sentence("Blue is a much deeper color than red.")
+    template3 = Sentence("Being happy is the most import thing.")
+
+    def article_test01(self):
+        tag_preposition(word_tests.template1)
+        self.assertEqual(word_tests.template1.show_tags()[0][1], 'article')
 
 #Test for properly functioning word structure
 
