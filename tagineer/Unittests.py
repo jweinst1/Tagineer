@@ -13,6 +13,9 @@ class word_tests(unittest.TestCase):
     def article_test01(self):
         tag_preposition(word_tests.template1)
         self.assertEqual(word_tests.template1.show_tags()[0][1], 'article')
+    def article_test02(self):
+        tag_preposition(word_tests.template3)
+        self.assertEqual(word_tests.template3.show_tags()[3][1], 'article')
 
 #Test for properly functioning word structure
 
